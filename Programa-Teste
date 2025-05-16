@@ -1,0 +1,86 @@
+v2.0 raw
+
+# Programa de Testes usando todas as instruções que gera harzards de forward e stall
+# O trecho final testa os branches e jumps usando NOPs para evitar problemas
+
+0402000A  # ADDI $2, $0, 10
+04030005  # ADDI $3, $0, 5
+0408000A  # ADDI $8, $0, 10
+0409000A  # ADDI $9, $0, 10
+040A0014  # ADDI $10, $0, 20
+040B0064  # ADDI $11, $0, 100
+
+00430800  # ADD  $1, $2, $3
+00232001  # SUB  $4, $1, $3
+00832802  # MUL  $5, $4, $3
+00A33003  # DIV  $6, $5, $3
+00C23804  # AND  $7, $6, $2
+00E13805  # OR   $7, $7, $1
+00201086  # SLL  $2, $1, 2
+00401847  # SRL  $3, $2, 1
+04640005  # ADDI $4, $3, 5
+08850002  # SUBI $5, $4, 2
+0CA60003  # MULI $6, $5, 3
+10C70002  # DIVI $7, $6, 2
+040C002A  # ADDI $12, $0, 42
+200C0000  # SW   $12, 0($0)
+1C010000  # LW   $1, 0($0) # stall
+00231000  # ADD  $2, $1, $3
+20020004  # SW   $2, 4($0)
+30221800  # SLT  $3, $1, $2
+34640001  # SLTI $4, $3, 1
+
+04080005  # ADDI $8, $0, 5
+04090005  # ADDI $9, $0, 5
+040A0006  # ADDI $10, $0, 6
+
+# NOPS Adicionados para evitar problemas com branches e jumps e deixar o salto perceptivel
+
+00000000  # NOP
+00000000  # NOP
+
+15090008  # BEQ $8, $9, +8 → vai pular os 8 NOPs e cair no BNE
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+
+250A0008  # BNE $8, $10, +8 → vai pular os 8 NOPs e cair no JUMP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+
+18000039  # JUMP LABEL3 → vai pular os 8 NOPs e cair no JAL
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+
+28000042  # JAL LABEL4 → vai pular os 8 NOPs e cair no JR # Aqui é LABEL3 
+00000000  # NOP # JR Volta pra cá criando um loop infinito
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+
+2FE00000  # JR $31 → salta para o endereço salvo # Aqui é LABEL4
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
+00000000  # NOP
