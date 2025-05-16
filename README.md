@@ -9,8 +9,17 @@ Discentes: João Gabriel e Fabricio Elizio
 
 <h3>Modelo de instrução:</h3>
 
+<h4>Tipo R:</h4>
 opcode---rs-----rt-----rd----shamt--funct <br>
 000000 00000 00000 00000 00000 000000
+
+<h4>Tipo I:</h4>
+opcode---rs-----rt------------imm-------- <br>
+000000 00000 00000 0000000000000000
+
+<h4>Tipo J:</h4>
+opcode--------------label---------------- <br>
+000000 00000000000000000000000000
 
 <h3>Instruções implementadas:</h3>
 
