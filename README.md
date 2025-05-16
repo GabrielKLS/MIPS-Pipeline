@@ -7,6 +7,8 @@ Docente: Ramon Nepomuceno
 
 Discentes: João Gabriel e Fabricio Elizio
 
+![What is this](MIPS-Pipeline-Image.png)
+
 <h3>Modelo de instrução:</h3>
 
 <h4>Tipo R:</h4>
